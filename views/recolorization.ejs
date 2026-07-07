@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <!--Title of the webpage: name of the tab-->
+    <title>Recolorization</title>
+
+    <!--Linking to the css file(separation of concerns)-->
+    <link rel="stylesheet" href="/forms.css">
+
+     <!--Referencing Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  </head>
+
+  <!--Adding RGB Gradient background with animation to fit the recolorization theme-->
+  <body class="gradient-body white-text">
+
+    
+    <div class="fade-in"> 
+
+      <form id="zip-form" action="/recolor" method="post" enctype="multipart/form-data">
+
+        <h1>Recolorization:</h1>
+
+
+        <label for="favcolor">Choose a color:</label>
+        <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+  
+
+        <label for="myfile">Upload a ZIP file containing images:</label>
+        <input type="file" id="myfile" name="myfile" accept=".zip">
+        <span id="file-name" class="white-text"></span>
+
+        <button type="submit" class="btn gradient-button">Upload & Recolor</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <!--Referencing Bootstrap CSS-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" 
+        crossorigin="anonymous">
+
+        <!--Referencing Bootstrap JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" 
+        crossorigin="anonymous"></script>
+
+        <!--Linking to the css file(separation of concerns)-->
+        <link rel="stylesheet" href="/forms.css">
+
+        <!--Title of the webpage: name of the tab-->
+        <title>Sign In</title>
+    </head>
+
+    <!--Adding RGB Gradient background with animation to fit the recolorization theme-->
+    <body class="gradient-body">
+
+
+      <div class="fade-in">
+      <form id="form" action="/login" method="post"> 
+        <h1 class="h3 mb-3 fw-normal white-text">Please Sign In</h1> 
+        <div class="form-floating">
+             <input type="text" class="form-control" id="floatingInput" 
+             name="username" placeholder="Username" autocomplete="off"> 
+             <label for="floatingInput">Username</label> 
+        </div> 
+        <div class="form-floating mb-3">
+             <input type="password" class="form-control" id="password" placeholder="Password" 
+             name="password">
+             <label for="password">Password</label>
+             <div class="form-text small"></div>
+        </div>
+        <a href="/register" class="login-register">Register</a>
+        <button class="btn gradient-button w-100 py-5" style="font-size: large; margin-left: 50px;"
+        type="submit">Sign In</button>
+        <footer class="py-3 my-4 white-text">
+          <p>© Alphan Algül 2025</p> 
+        </footer>
+<!--Displaying messages to the user--> 
+  <% if (msg) { %>
+  <!--For displaying flash messages such as "Registration Successful"-->   
+    <% if (Array.isArray(msg) && msg.length) { %>
+      <script>alert("<%= msg[0] %>");</script>
+  <!--For displaying regular messages such as error-->     
+    <% } else { %>
+      <script>alert("<%= msg %>");</script>
+    <% } %>
+  <% } %>
+</div>
+    </body>
+</html>

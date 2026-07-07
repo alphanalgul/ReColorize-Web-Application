@@ -1,0 +1,40 @@
+.color-gallery{
+  width: 100%;
+  margin: 0;
+}
+
+.gradient-background{
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(300deg, green, red, blue);
+  background-size: 180% 180%;
+  animation: gradient-animation 18s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-container {
+  width: 700px; /* or whatever width fits your gallery */
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 40px;
+  margin: 40px 0;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnimation 1s ease-in forwards;
+}

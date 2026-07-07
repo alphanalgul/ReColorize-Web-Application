@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <!--Linking to the css file(separation of concerns)-->
+        <link rel="stylesheet" href="/forms.css">
+
+        <!--Referencing Bootstrap CSS-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" 
+        crossorigin="anonymous">
+
+        <!--Title of the webpage: name of the tab-->
+        <title>ReColorize: The Home of Image Recoloring</title>    
+    </head>
+
+    <!--Adding RGB Gradient background with animation to fit the recolorization theme-->
+    <body class="gradient-body">
+
+         <div class="fade-in">
+
+            <!--Hero-->
+            <div class="px-4 py-5 my-5 text-center text-white">
+                    <img class="d-block mx-auto mb-4" src="/rgb.png" alt="RGB Chart" width="244" height="214"> 
+                    <h1 class="display-5 fw-bold">Welcome to Recolorize!</h1> 
+                    <div class="col-lg-6 mx-auto"> 
+                     <p class="lead mb-4">
+                        Transform Images with Just a Click! Upload a ZIP file of your images, pick any color, 
+                        and let Recolorize instantly apply that color to your visuals. Whether it’s grids, 
+                        numbers, or patterns, the system automatically recolors your images and stores them securely 
+                        in the database. Fast, efficient and user-friendly, Recolorize makes image customization 
+                        effortless.
+                    </p> 
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center"> 
+                    <button type="button" class="btn gradient-button btn-lg px-4 gap-3">
+                        <a href="/recolorization" style="text-decoration: none; color: white;">
+                             Recolor your Images Now
+                        </a>
+                    </button>
+                    <button type="button" class="btn gradient-button btn-lg px-4 gap-3">
+                        <a href="/color-gallery" style="text-decoration: none; color: white;">
+                             Browse Color Gallery
+                        </a>
+                    </button>
+                </div> 
+                </div> 
+            </div>
+
+            <!--Footer-->
+            <footer class="py-3 my-4"> 
+                <ul class="nav justify-content-center pb-3 mb-3"> 
+                    <li class="nav-item"><a href="/home" class="nav-link px-2 text-white">Home</a></li> 
+                    <li class="nav-item"><a href="/recolorization" class="nav-link px-2 text-white">Recolorization</a></li> 
+                    <li class="nav-item"><a href="/color-gallery" class="nav-link px-2 text-white">Color Gallery</a></li> 
+                    <li class="nav-item"><a href="/register" class="nav-link px-2 text-white">Sign Up</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link px-2 text-white">Sign In</a></li>  
+                </ul> 
+                <p class="text-center text-white">© Alphan Algül 2025</p> 
+            </footer>
+        </div>
+
+    <!--Displaying messages to the user--> 
+    <% if (msg) { %>
+  <!--For displaying flash messages such as "Registration Successful"-->   
+        <% if (Array.isArray(msg) && msg.length) { %>
+            <script>alert("<%= msg[0] %>");</script>
+  <!--For displaying regular messages such as error-->     
+        <% } else { %>
+            <script>alert("<%= msg %>");</script>
+        <% } %>
+    <% } %>
+    </body>
+</html>

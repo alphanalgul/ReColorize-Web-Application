@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">>
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <!--Title of the webpage: name of the tab-->
+    <title>Color Gallery</title>
+
+    <!--Linking to the css file(separation of concerns)-->
+    <link rel="stylesheet" href="/gallery.css">
+
+
+    <!--Referencing Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" 
+        crossorigin="anonymous">
+  </head>
+
+  <!--Adding RGB Gradient background with animation to fit the recolorization theme-->
+  <body class="gradient-background">
+
+    <div class="gallery-container">
+
+    <div class="color-gallery">
+
+    <h2>Color Gallery:</h2>
+    <!--Displaying flash messages-->
+     <% if (msg) { %>
+        <div><%= msg %></div>
+     <% } %>
+
+      <!--Loops through the colorGroups(received from the backend and storing them in safeColor array)-->
+     <% Object.keys(colorGroups).forEach(function(color) { 
+        const safeColor = (color || '').toString().trim();
+      %>
+
+    <h3>
+        
+       <span style="background:<%= safeColor %>; padding:4px 12px; border-radius:4px; color:#fff;">
+        <%= safeColor %></span>
+    </h3>
+
+    <ul style="list-style-type: none;">
+
+        <% colorGroups[color].forEach(function(file) { %>
+      <li>
+
+          <img src="<%= file.dataUrl %>" alt="<%= file.filename %>" width="200"><br>
+          <%= file.filename %> (uploaded at <%= file.formattedDate %>)
+         <a href="/download/<%= file.id %>" class="btn btn-primary">Download</a>
+      </li>
+          <% }); %>
+    </ul>
+    <% }); %>
+    </div>
+    </div>
+  </body>
+</html>
