@@ -7,6 +7,13 @@ import pg from "pg";
 import sharp from "sharp";
 import multer from "multer";
 import AdmZip from "adm-zip";
+import bcrypt from "bcrypt";
+
+const saltRounds = 10;
+
+//Configuring .env
+import dotenv from "dotenv";
+dotenv.config();
 
 //Setting up the server
 const app = express();
@@ -17,7 +24,7 @@ const upload = multer({ dest: "uploads/" });
 
 //express-session set-up
 app.use(session({
-    secret: '111111',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -27,12 +34,12 @@ app.use(flash());
 
 //creating a db object to facilitate communication between the server and the database
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "Recolorize",
-    password: "jxzvgA3+",
-    port: 5432
-});
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: Number(process.env.DB_PORT)
+})
 db.connect();//connecting to the database
 
 app.use(express.static("public"));//For using css (serving static files)
@@ -184,36 +191,43 @@ app.post("/submit", async (req, res) => {
         return res.render("registration.ejs", { msg: "Invalid Password! Your password should contain at least 1 special character" });
     }
 
-    //If the registration operation was successful, save registration credentials of the user to the database
+    //If the registration operation was successful, save registration credentials (passwords are hashed) of the user to the database
     //display a success message and redirect the user to the login page so that they can access the rest of the
     //application
-    await db.query("INSERT INTO users(username,password) VALUES ($1,$2)", [username, pwd]);
+    const hashedPassword = await bcrypt.hash(pwd, saltRounds);
+    await db.query(
+      "INSERT INTO users(username,password) VALUES ($1,$2)",
+      [username, hashedPassword]
+    );
     req.flash('msg', 'Registration Successful');
     res.redirect('/');
 });
 
 // Login
 app.post("/login", async (req, res) => {
-  //Storing User input into variables using req.body method from the body-parser package
     const login_username = req.body.username;
     const login_pwd = req.body.password;
 
-    //Retrieving the result object(includes the rows in which the username
-    // and password inputted by the user is equal to the username and password values in the row) 
-    // from the database 
+    // Find user by username only
     const result = await db.query(
-        "SELECT * FROM users WHERE username=$1 AND password=$2",
-        [login_username, login_pwd]
+        "SELECT * FROM users WHERE username=$1",
+        [login_username]
     );
 
-    //If there arre no rows(no matching results), display an error message and reload
-    //the login page so that the user can retry again
+    // If username does not exist
     if (result.rows.length === 0) {
         return res.render("login.ejs", { msg: "Invalid Username or Password!" });
     }
 
-    //If the login was successful, display a specialized success message and redirect the user to the home
-    //page where they can access the main features of the application
+    const user = result.rows[0];
+
+    // Compare typed password with hashed password stored in database
+    const passwordMatches = await bcrypt.compare(login_pwd, user.password);
+
+    if (!passwordMatches) {
+        return res.render("login.ejs", { msg: "Invalid Username or Password!" });
+    }
+
     req.flash('msg', `Login Successful! Welcome, ${login_username}!`);
     res.redirect('/home');
 });
